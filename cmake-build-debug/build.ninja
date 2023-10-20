@@ -41,29 +41,61 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/cmake-build-debug/
 # =============================================================================
+# Object build statements for SHARED_LIBRARY target caesar
+
+
+#############################################
+# Order-only phony target for caesar
+
+build cmake_object_order_depends_target_caesar: phony || CMakeFiles/caesar.dir
+
+build CMakeFiles/caesar.dir/encrypt.cpp.o: CXX_COMPILER__caesar_unscanned_Debug /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/encrypt.cpp || cmake_object_order_depends_target_caesar
+  DEFINES = -Dcaesar_EXPORTS
+  DEP_FILE = CMakeFiles/caesar.dir/encrypt.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fPIC -fvisibility=default -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/caesar.dir
+  OBJECT_FILE_DIR = CMakeFiles/caesar.dir
+
+build CMakeFiles/caesar.dir/decrypt.cpp.o: CXX_COMPILER__caesar_unscanned_Debug /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/decrypt.cpp || cmake_object_order_depends_target_caesar
+  DEFINES = -Dcaesar_EXPORTS
+  DEP_FILE = CMakeFiles/caesar.dir/decrypt.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fPIC -fvisibility=default -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/caesar.dir
+  OBJECT_FILE_DIR = CMakeFiles/caesar.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target caesar
+
+
+#############################################
+# Link the shared library libcaesar.dylib
+
+build libcaesar.dylib: CXX_SHARED_LIBRARY_LINKER__caesar_Debug CMakeFiles/caesar.dir/encrypt.cpp.o CMakeFiles/caesar.dir/decrypt.cpp.o
+  ARCH_FLAGS = -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk
+  INSTALLNAME_DIR = @rpath/
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles/caesar.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  SONAME = libcaesar.dylib
+  SONAME_FLAG = -install_name
+  TARGET_FILE = libcaesar.dylib
+  TARGET_PDB = caesar.dylib.dbg
+
+# =============================================================================
 # Object build statements for EXECUTABLE target Assignment3_Paradigms
 
 
 #############################################
 # Order-only phony target for Assignment3_Paradigms
 
-build cmake_object_order_depends_target_Assignment3_Paradigms: phony || CMakeFiles/Assignment3_Paradigms.dir
+build cmake_object_order_depends_target_Assignment3_Paradigms: phony || cmake_object_order_depends_target_caesar
 
 build CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o: CXX_COMPILER__Assignment3_Paradigms_unscanned_Debug /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/main.cpp || cmake_object_order_depends_target_Assignment3_Paradigms
   DEP_FILE = CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
-  OBJECT_DIR = CMakeFiles/Assignment3_Paradigms.dir
-  OBJECT_FILE_DIR = CMakeFiles/Assignment3_Paradigms.dir
-
-build CMakeFiles/Assignment3_Paradigms.dir/encript.cpp.o: CXX_COMPILER__Assignment3_Paradigms_unscanned_Debug /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/encript.cpp || cmake_object_order_depends_target_Assignment3_Paradigms
-  DEP_FILE = CMakeFiles/Assignment3_Paradigms.dir/encript.cpp.o.d
-  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
-  OBJECT_DIR = CMakeFiles/Assignment3_Paradigms.dir
-  OBJECT_FILE_DIR = CMakeFiles/Assignment3_Paradigms.dir
-
-build CMakeFiles/Assignment3_Paradigms.dir/decript.cpp.o: CXX_COMPILER__Assignment3_Paradigms_unscanned_Debug /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/decript.cpp || cmake_object_order_depends_target_Assignment3_Paradigms
-  DEP_FILE = CMakeFiles/Assignment3_Paradigms.dir/decript.cpp.o.d
-  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fvisibility=default -fcolor-diagnostics
+  INCLUDES = -I/Users/antoninanovak/CLionProjects/Assignment3_Paradigms
   OBJECT_DIR = CMakeFiles/Assignment3_Paradigms.dir
   OBJECT_FILE_DIR = CMakeFiles/Assignment3_Paradigms.dir
 
@@ -75,8 +107,9 @@ build CMakeFiles/Assignment3_Paradigms.dir/decript.cpp.o: CXX_COMPILER__Assignme
 #############################################
 # Link the executable Assignment3_Paradigms
 
-build Assignment3_Paradigms: CXX_EXECUTABLE_LINKER__Assignment3_Paradigms_Debug CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o CMakeFiles/Assignment3_Paradigms.dir/encript.cpp.o CMakeFiles/Assignment3_Paradigms.dir/decript.cpp.o
+build Assignment3_Paradigms: CXX_EXECUTABLE_LINKER__Assignment3_Paradigms_Debug CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o | libcaesar.dylib || libcaesar.dylib
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk
+  LINK_LIBRARIES = -Wl,-rpath,/Users/antoninanovak/CLionProjects/Assignment3_Paradigms/cmake-build-debug  libcaesar.dylib
   OBJECT_DIR = CMakeFiles/Assignment3_Paradigms.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -109,6 +142,8 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
+build caesar: phony libcaesar.dylib
+
 # =============================================================================
 # Folder targets.
 
@@ -117,7 +152,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/antoninanovak/CLionProjects/Assignment3_Paradigms/cmake-build-debug
 
-build all: phony Assignment3_Paradigms
+build all: phony libcaesar.dylib Assignment3_Paradigms
 
 # =============================================================================
 # Built-in targets

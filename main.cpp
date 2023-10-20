@@ -1,9 +1,8 @@
 #include <iostream>
-#include <dlfcn.h> // for dlopen, dlsym, dlclose
+#include <dlfcn.h>
 
 using namespace std;
 
-// Function pointers for the library functions
 typedef char* (*EncryptFunc)(char*, int);
 typedef char* (*DecryptFunc)(char*, int);
 
@@ -11,21 +10,45 @@ int main() {
     // Load the dynamic library
     void* handle = dlopen("./libcaesar.dylib", RTLD_LAZY);
     if (!handle) {
-        std::cerr << "Cannot load library: " << dlerror() << '\n';
+        cerr << "Cannot load library: " << dlerror() << '\n';
         return 1;
     }
 
-    // Load the symbols (functions)
+    // Load the symbols
     EncryptFunc encrypt = (EncryptFunc) dlsym(handle, "encrypt");
     DecryptFunc decrypt = (DecryptFunc) dlsym(handle, "decrypt");
 
     if (!encrypt || !decrypt) {
-        std::cerr << "Cannot load symbols: " << dlerror() << '\n';
+        cerr << "Cannot load symbols: " << dlerror() << '\n';
         return 1;
     }
 
-    // Command Line Interface logic here
-    // TODO: Take the input text and key, call encrypt and decrypt, and display results
+    // Command Line Interface
+    string text;
+    int key;
+
+    // Encryption
+    cout << "Enter text to encrypt: ";
+    getline(cin, text);
+    cout << "Enter key: ";
+    cin >> key;
+
+    char* encrypted = encrypt(const_cast<char*>(text.c_str()), key);
+    cout << "Encrypted text: " << encrypted << '\n';
+    delete[] encrypted;
+
+    // Clear the input buffer
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    // Decryption
+    cout << "Enter text to decrypt: ";
+    getline(cin, text);
+    cout << "Enter key: ";
+    cin >> key;
+
+    char* decrypted = decrypt(const_cast<char*>(text.c_str()), key);
+    cout << "Decrypted text: " << decrypted << '\n';
+    delete[] decrypted;
 
     // Close the dynamic library
     dlclose(handle);

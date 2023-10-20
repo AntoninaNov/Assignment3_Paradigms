@@ -1,3 +1,13 @@
 # ninja log v5
-0	439	1697837024964008099	CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o	d7a8fdced1a64c9b
-440	538	1697837025064344849	Assignment3_Paradigms	6f714d34e8bee117
+34	67	1697845472287042275	libcaesar.dylib	d8604990b5aa1fb9
+3	34	1697845472252802033	CMakeFiles/caesar.dir/decrypt.cpp.o	e99602f64398ecb6
+0	55	1697845533501116326	build.ninja	89184847ca132832
+2	33	1697845472252801283	CMakeFiles/caesar.dir/encrypt.cpp.o	340476be01ff76b4
+2	352	1697845401252071746	CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o	98d6faf1bf5614fe
+67	96	1697845472316316471	Assignment3_Paradigms	bf4c3a9d4346b4bc
+1	222	1697845543171521448	CMakeFiles/Assignment3_Paradigms.dir/main.cpp.o	98d6faf1bf5614fe
+222	256	1697845543207074858	Assignment3_Paradigms	bf4c3a9d4346b4bc
+2	32	1697845792488203258	CMakeFiles/caesar.dir/encrypt.cpp.o	340476be01ff76b4
+2	32	1697845792488180424	CMakeFiles/caesar.dir/decrypt.cpp.o	e99602f64398ecb6
+32	66	1697845792523183542	libcaesar.dylib	d8604990b5aa1fb9
+66	95	1697845792552028946	Assignment3_Paradigms	bf4c3a9d4346b4bc
