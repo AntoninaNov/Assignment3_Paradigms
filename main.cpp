@@ -1,57 +1,87 @@
 #include <iostream>
 #include <dlfcn.h>
+#include <limits>
 
 using namespace std;
 
 typedef char* (*EncryptFunc)(char*, int);
 typedef char* (*DecryptFunc)(char*, int);
 
+void displayMenu() {
+    cout << "1. Encrypt Text\n";
+    cout << "2. Decrypt Text\n";
+    cout << "3. Exit\n";
+}
+
 int main() {
-    // Load the dynamic library
     void* handle = dlopen("./libcaesar.dylib", RTLD_LAZY);
     if (!handle) {
         cerr << "Cannot load library: " << dlerror() << '\n';
         return 1;
     }
 
-    // Load the symbols
     EncryptFunc encrypt = (EncryptFunc) dlsym(handle, "encrypt");
     DecryptFunc decrypt = (DecryptFunc) dlsym(handle, "decrypt");
-
     if (!encrypt || !decrypt) {
         cerr << "Cannot load symbols: " << dlerror() << '\n';
+        dlclose(handle);
         return 1;
     }
 
-    // Command Line Interface
+    int choice;
     string text;
     int key;
+    char* processedText;
 
-    // Encryption
-    cout << "Enter text to encrypt: ";
-    getline(cin, text);
-    cout << "Enter key: ";
-    cin >> key;
+    while (true) {
+        displayMenu();
 
-    char* encrypted = encrypt(const_cast<char*>(text.c_str()), key);
-    cout << "Encrypted text: " << encrypted << '\n';
-    delete[] encrypted;
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    // Clear the input buffer
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        if (choice == 3) {
+            break;
+        }
 
-    // Decryption
-    cout << "Enter text to decrypt: ";
-    getline(cin, text);
-    cout << "Enter key: ";
-    cin >> key;
+        cout << "Enter text: ";
+        if (!getline(cin, text) || text.empty()) {
+            cerr << "Invalid input\n";
+            continue;
+        }
 
-    char* decrypted = decrypt(const_cast<char*>(text.c_str()), key);
-    cout << "Decrypted text: " << decrypted << '\n';
-    delete[] decrypted;
+        cout << "Enter key: ";
+        if (!(cin >> key)) {
+            cerr << "Invalid key\n";
+            continue;
+        }
 
-    // Close the dynamic library
-    dlclose(handle);
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        if (choice == 1) {
+            processedText = encrypt(const_cast<char*>(text.c_str()), key);
+            if (!processedText) {
+                cerr << "Encryption failed\n";
+                continue;
+            }
+            cout << "Encrypted text: " << processedText << '\n';
+        } else if (choice == 2) {
+            processedText = decrypt(const_cast<char*>(text.c_str()), key);
+            if (!processedText) {
+                cerr << "Decryption failed\n";
+                continue;
+            }
+            cout << "Decrypted text: " << processedText << '\n';
+        } else {
+            cerr << "Invalid choice\n";
+            continue;
+        }
+
+        delete[] processedText;
+    }
+
+    if (dlclose(handle) != 0) {
+        cerr << "Error while closing dynamic library: " << dlerror() << '\n';
+    }
 
     return 0;
 }
